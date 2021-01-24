@@ -16,7 +16,7 @@ async def on_command_error(ctx, error):
 async def neko(ctx):
     await ctx.send('にゃーん')
 
-#botにメンションを送ると返事が返ってくる#
+# 返信する非同期関数を定義
 async def reply(message):
     reply = f'{message.author.mention} 呼んだ？' # 返信メッセージの作成
     await message.channel.send(reply) # 返信メッセージを送信
@@ -26,6 +26,5 @@ async def reply(message):
 async def on_message(message):
     if client.user in message.mentions: # 話しかけられたかの判定
         await reply(message) # 返信する非同期関数を実行
-    
 
 bot.run(token)
