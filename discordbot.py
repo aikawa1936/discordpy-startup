@@ -4,6 +4,8 @@ import traceback
 
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
+
+#Channel ID
 first_id = 799059509443166208
 
 @bot.event
