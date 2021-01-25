@@ -18,5 +18,4 @@ async def on_message(message):
 async def neko(ctx):
     await ctx.send('にゃーん')        
         
-# Botの起動とDiscordサーバーへの接続
 bot.run(TOKEN)
