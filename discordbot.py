@@ -1,19 +1,23 @@
-import discord
 from discord.ext import commands
-import asyncio
-import traceback
-import random
 import os
-token = os.environ['DISCORD_BOT_TOKEN']
+import traceback
 
-client = discord.Client()
+client = commands.Bot(command_prefix='/')
+token = os.environ['DISCORD_BOT_TOKEN']
 
 @client.event
 async def on_message(message):
-    if message.author.bot:
-        return
-    if message.content == "/hello":
-        msg = message.author.mention + "さん、おはようございます！今日もよろしくお願いします。"
-    await client.send_message(message.channel, msg)
+    try:
+        if message.author.bot:
+            return
+        await bot.process_commands(message)
+    except Exception:
+        await message.channel.send(f'```\n{traceback.format_exc()}\n```')
+async def on_command_error(ctx, error):
+    await ctx.send(str(error))
+
+@client.command()
+async def neko(ctx):
+    await ctx.send('にゃーん')
 
 client.run(token)
