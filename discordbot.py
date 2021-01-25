@@ -1,24 +1,28 @@
-from discord.ext import commands
+# インストールした discord.py を読み込む
+import discord
 import os
-import traceback
-import random
 
-client = commands.Bot(command_prefix='/')
-token = os.environ['DISCORD_BOT_TOKEN']
+# 自分のBotのアクセストークンに置き換えてください
+token = os.environ.get('DISCORD_BOT_TOKEN')
 
+# 接続に必要なオブジェクトを生成
+client = discord.Client()
+
+# 起動時に動作する処理
+@client.event
+async def on_ready():
+    # 起動したらターミナルにログイン通知が表示される
+    print('ログインしました')
+
+# メッセージ受信時に動作する処理
 @client.event
 async def on_message(message):
-    try:
-        if message.author.bot:
-            return
-        await client.process_commands(message)
-    except Exception:
-        await message.channel.send(f'```\n{traceback.format_exc()}\n```')
-async def on_command_error(ctx, error):
-    await ctx.send(str(error))
+    # メッセージ送信者がBotだった場合は無視する
+    if message.author.bot:
+        return
+    # 「/neko」と発言したら「にゃーん」が返る処理
+    if message.content == '/neko':
+        await message.channel.send('にゃーん')
 
-@client.command()
-async def neko(ctx):
-    await ctx.send('にゃーん')
-
+# Botの起動とDiscordサーバーへの接続
 client.run(token)
