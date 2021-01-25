@@ -21,4 +21,8 @@ async def on_command_error(ctx, error):
 async def neko(ctx):
     await ctx.send('にゃーん')
 
+@client.command()
+async def hello(ctx):
+    await ctx.send('おはようございます、' + message.author.mention + 'さん。今日もよろしくお願いします♪')
+
 client.run(token)
