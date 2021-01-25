@@ -1,9 +1,8 @@
+# coding utf-8
 # インストールした discord.py を読み込む
 import discord
-import os
 import random
-
-# 自分のBotのアクセストークンに置き換えてください
+import os
 token = os.environ.get('DISCORD_BOT_TOKEN')
 
 # 接続に必要なオブジェクトを生成
