@@ -3,19 +3,19 @@ import os
 import traceback
 
 bot = commands.Bot(command_prefix='/')
-TOKEN = os.environ['DISCORD_BOT_TOKEN']
+token = os.environ['DISCORD_BOT_TOKEN']
+
 
 @bot.event
-async def on_message(message):
-    try:
-        if message.author.bot:
-            return
-        await bot.process_commands(message)
-    except Exception:
-        await message.channel.send(f'```\n{traceback.format_exc()}\n```')
+async def on_command_error(ctx, error):
+    orig_error = getattr(error, "original", error)
+    error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
+    await ctx.send(error_msg)
 
-@bot.commands
+
+@bot.command()
 async def neko(ctx):
-    await ctx.send('にゃーん')        
-        
-bot.run(TOKEN)
+    await ctx.send('にゃーん')
+
+
+bot.run(token)
