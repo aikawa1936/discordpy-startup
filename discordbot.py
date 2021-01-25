@@ -22,6 +22,6 @@ async def neko(ctx):
 @bot.command()
 async def hello(ctx):
     msg = message.author.mention+'さん、こんにちは！'
-    await ctx.send(message,channel.msg)
+    await ctx.send(message,channel,msg)
 
 bot.run(token)
