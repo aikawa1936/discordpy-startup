@@ -1,23 +1,10 @@
-# インストールした discord.py を読み込む
 from discord.ext import commands
-import discord
-import traceback
 import os
+import traceback
 
 bot = commands.Bot(command_prefix='/')
 TOKEN = os.environ['DISCORD_BOT_TOKEN']
 
-# 接続に必要なオブジェクトを生成
-client = discord.Client()
-
-# 起動時に動作する処理
-@client.event
-async def on_ready():
-    # 起動したらターミナルにログイン通知が表示される
-    print('ただいま出勤いたしましたー！')
-
-    
-# メッセージ受信時に動作する処理
 @bot.event
 async def on_message(message):
     try:
