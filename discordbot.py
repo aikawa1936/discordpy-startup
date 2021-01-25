@@ -4,7 +4,6 @@ import traceback
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
 
-
 @bot.event
 async def on_message(message):
     try:
@@ -19,5 +18,9 @@ async def on_command_error(ctx, error):
 @bot.command()
 async def neko(ctx):
     await ctx.send('にゃーん')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send('こんにちは！')
 
 bot.run(token)
