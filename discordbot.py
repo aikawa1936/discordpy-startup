@@ -1,18 +1,20 @@
 # coding: UTF-8
 import discord
 import random
-from datetime import datetime
-from pytz import timezone
+from datetime import datetime, timedelta, timezone
 import os
 token = os.environ.get('DISCORD_BOT_TOKEN')
 
+# インテント設定
 my_intents = discord.Intents.default()
 my_intents.members = True
 
-client = discord.Client(intents=my_intents)
+client = discord.Client(intents = my_intents)
 
 @client.event
 async def on_ready():
+    activity = discord.Activity(name = today, type = discord.ActivityType.playing)
+    await client.change_presence(activity=activity)
     print('ログインしました')
 
 ##メッセージに関する処理
@@ -32,7 +34,9 @@ async def help(message):
     await message.channel.send(help)
 
 # リマインダー
-now = datetime.now().strftime('%Y年%m月%d日%H:%M') # 現在時刻を〇年△月×日〇〇：〇〇の形で表示する。　
+JST = timezone(timedelta(hours = +9))
+today = datetime.now(JST).strftime('%Y年%m月%d日') # 現在日時を〇〇年△月×日で表示する。
+now = datetime.now(JST).strftime('%H:%M') # 現在時刻を〇〇：〇〇の形で表示する。　
 
 @client.event
 async def on_message(message):
@@ -64,8 +68,8 @@ async def on_message(message):
     if message.content == '/help':
         await help(message)
     # リマインダー
-    if message.content == '/remind':
-        await message.channel.send('今は' + now + 'です。\nいつ、何をお知らせしますか？\n登録方法は"/remind タイトル,YYYY/MM/DD,hh:mm,コメント"です（未実装）')
+    if message.content == '/reminder':
+        await message.channel.send('今は概ね' + today + now + 'です。\nいつ、何をお知らせしますか？\n登録方法は"/remind タイトル,YYYY/MM/DD,hh:mm,コメント"です（未実装）')
     # リマインダーリスト表示
     if message.content == '/remind_list':
         await message.channel.send('今お預かりしているリマインダー項目は次の通りです（未実装）')
