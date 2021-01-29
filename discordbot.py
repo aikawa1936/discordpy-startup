@@ -33,11 +33,6 @@ async def help(message):
     help = list03[0]
     await message.channel.send(help)
 
-# リマインダー
-JST = timezone(timedelta(hours = 9))
-today = datetime.now(JST).strftime('%Y年%m月%d日') # 現在日時を〇〇年△月×日で表示する。
-now = datetime.now(JST).strftime('%H:%M') # 現在時刻を〇〇：〇〇の形で表示する。　
-
 @client.event
 async def on_message(message):
     # botの相手はしないようにする
@@ -79,11 +74,28 @@ async def on_message(message):
 
 ##ウェルカムメッセージの処理
 # メッセージを送りたいチャンネルのid
-channel_id = 799059509443166208
+channel_01 = 799059509443166208
 
 @client.event
 async def on_member_join(member):
-    channel = client.get_channel(channel_id)
+    channel = client.get_channel(channel_01)
     await channel.send(f"{member.mention}さん、初めまして♪\n【こんるーそる】へようこそ！\n" + "１．まずは<#799065375924158494>をごらんください。至ってシンプルです。\n" + "２．<#796924782636826688>はみんなが読めるテキストチャンネルです。\n　　こちらに一言でもご挨拶いただけるとみんな喜びます。\n" + "３．<#796928673805762561>には各チャンネルの役割について書いています。\n" + "４．【こんるーそる】について何か意見や要望があれば<#799232703605637121>に書き込んでくださると助かります。\n" + "ご案内は以上になります。\n" + "どうぞよろしくお願いします。")
+
+##リマインダー
+JST = timezone(timedelta(hours = 9))
+today = datetime.now(JST).strftime('%Y年%m月%d日') # 現在の日付を〇〇年△月×日で表示する。
+now = datetime.now(JST).strftime('%H:%M') # 現在時刻を〇〇：〇〇の形で表示する。　
+
+channel_02 = 796924782636826688 # 時報を送信するチャンネルid
+
+remind_list = ['2021/01/30', '12:00', 'お昼だよー！'] # 日時格納リスト
+
+@client.event
+async def reminder(): # reminderという名前の関数を入れる箱を作った
+    if today == remind_list[0]: # 登録した日付の
+        if now == remind_list[1]: # 登録した時間になったら
+            channel = client.get_channel(channel_02) # このチャンネルに
+            await channel.send(remind_list[2]) # 登録したメッセージを送信する
+
 
 client.run(token)
