@@ -34,7 +34,7 @@ async def help(message):
     await message.channel.send(help)
 
 # リマインダー
-JST = datetime.timezone(datetime.timedelta(hours = 9))
+JST = timezone(timedelta(hours = 9))
 today = datetime.now(JST).strftime('%Y年%m月%d日') # 現在日時を〇〇年△月×日で表示する。
 now = datetime.now(JST).strftime('%H:%M') # 現在時刻を〇〇：〇〇の形で表示する。　
 
