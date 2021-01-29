@@ -3,6 +3,7 @@ import discord
 import random
 from datetime import datetime, timedelta, timezone
 import os
+
 token = os.environ.get('DISCORD_BOT_TOKEN')
 
 # インテント設定
