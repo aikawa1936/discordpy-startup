@@ -87,16 +87,15 @@ JST = timezone(timedelta(hours = 9))
 today = datetime.now(JST).strftime('%Y年%m月%d日') # 現在の日付を〇〇年△月×日で表示する。
 now = datetime.now(JST).strftime('%H:%M') # 現在時刻を〇〇：〇〇の形で表示する。　
 
-channel_02 = 796924782636826688 # 時報を送信するチャンネルid
+channel_02 = 804637325988331551 # 時報を送信するチャンネルid
 
-remind_list = ['2021/01/30', '12:00', 'お昼だよー！'] # 日時格納リスト
+remind_list = ['2021/01/30', '13:30', '時報のテストを行っています。'] # 日時格納リスト
 
-@client.event
-async def reminder(): # reminderという名前の関数を入れる箱を作った
+@tasks.loop(seconds=15)
+async def loop(): # reminderという名前の関数を入れる箱を作った
     if today == remind_list[0]: # 登録した日付の
         if now == remind_list[1]: # 登録した時間になったら
             channel = client.get_channel(channel_02) # このチャンネルに
             await channel.send(remind_list[2]) # 登録したメッセージを送信する
-
 
 client.run(token)
