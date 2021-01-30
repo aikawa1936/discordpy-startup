@@ -12,6 +12,11 @@ my_intents.members = True
 
 client = discord.Client(intents = my_intents)
 
+##時間に関する処理
+JST = timezone(timedelta(hours = 9))
+today = datetime.now(JST).strftime('%Y/%m/%d') # 現在の日付を〇〇年△月×日で表示する。
+now = datetime.now(JST).strftime('%H:%M') # 現在時刻を〇〇：〇〇の形で表示する。　
+
 @client.event
 async def on_ready():
     activity = discord.Activity(name = today, type = discord.ActivityType.playing)
@@ -81,22 +86,5 @@ channel_01 = 799059509443166208
 async def on_member_join(member):
     channel = client.get_channel(channel_01)
     await channel.send(f"{member.mention}さん、初めまして♪\n【こんるーそる】へようこそ！\n" + "１．まずは<#799065375924158494>をごらんください。至ってシンプルです。\n" + "２．<#796924782636826688>はみんなが読めるテキストチャンネルです。\n　　こちらに一言でもご挨拶いただけるとみんな喜びます。\n" + "３．<#796928673805762561>には各チャンネルの役割について書いています。\n" + "４．【こんるーそる】について何か意見や要望があれば<#799232703605637121>に書き込んでくださると助かります。\n" + "ご案内は以上になります。\n" + "どうぞよろしくお願いします。")
-
-##リマインダー
-JST = timezone(timedelta(hours = 9))
-today = datetime.now(JST).strftime('%Y/%m/%d') # 現在の日付を〇〇年△月×日で表示する。
-now = datetime.now(JST).strftime('%H:%M') # 現在時刻を〇〇：〇〇の形で表示する。　
-
-channel_02 = 804637325988331551 # 時報を送信するチャンネルid
-
-remind_list = ['2021/01/30', '13:30', '時報のテストを行っています。'] # 日時格納リスト
-
-@tasks.loop(seconds=15)
-async def loop(): # loopという名前の関数を入れる箱を作った
-    if today == '2021/01/30': # 登録した日付の
-        if now == '13:20': # 登録した時間になったら
-            channel = client.get_channel(channel_02) # このチャンネルに
-            await channel.send('時報のテストを行っていまーす！') # 登録したメッセージを送信する
-
 
 client.run(token)
