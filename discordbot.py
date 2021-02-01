@@ -12,29 +12,47 @@ my_intents.members = True
 
 client = discord.Client(intents = my_intents)
 
-##時間に関する処理
-JST = timezone(timedelta(hours = 9))
-today = datetime.now(JST).strftime('%Y/%m/%d') # 現在の日付を〇〇年△月×日で表示する。
-now = datetime.now(JST).strftime('%H:%M') # 現在時刻を〇〇：〇〇の形で表示する。　
+# チャンネルID置き場
+channel_01 = 799059509443166208 # 初めにお読みください
+channel_02 = 800882842519207936 # bot-control
 
+##時間に関する定義
+today = datetime.now().strftime('%y/%m/%d')
+now = datetime.now().strftime('%H:%M')
+
+# 30秒に1度、時間情報を取得する
+# ループ処理を実行する
+#time_check.start()
+
+##リマインダーの処理
+#remind_list = [] # 日時格納用リスト
+
+#@client.event
+#async def remind(): # remindという名前の関数を入れる箱を作った
+#    if today == '2021/02/01': # 登録した日付の
+#        if now == '20:00': # 登録した時間になったら
+#            channel = client.get_channel(channel_02) # このチャンネルに
+#            await channel.send('時報のテストを行っていまーす！') # 登録したメッセージを送信する
+
+##起動時の処理
 @client.event
 async def on_ready():
     activity = discord.Activity(name = today, type = discord.ActivityType.playing)
     await client.change_presence(activity=activity)
-    print('ログインしました')
+    print(today +' '+ now + '分、ログインしました')
 
 ##メッセージに関する処理
-# にゃーん返信リスト
-list01 = ['にゃーん♪', 'にゃっ！', 'にゃぁ……', 'うにゃ？']
+# 反応リスト
+list01 = ['にゃーん♪', 'にゃっ！', 'にゃぁ……', 'うにゃ？'] # にゃーん返信リスト
+list02 = ['わーちょっとまってー！今いそがし……あーっ！！', 'はーい♪ 何かご用事ですか？', 'さん、おはようございます♪\n今日もよろしくお願いします', '早く新しいお仕事を覚えなきゃ……！'] # メンションへの反応
+list03 = ['滝上 絢椛に対するテキストコマンドのヘルプ。\n・/neko：４つのパターンでねこの鳴き真似を返します。\n・/exit（管理者のみ）：滝上 絢椛を終了します。\n・/cleanup（管理者のみ）入力したテキストチャンネルのログを全削除します。\n・/remind（未実装）：リマインダー登録します。登録方法は"/remind タイトル,yyyy/MM/dd,hh:mm,コメント"です。\n・/remind_list（未実装）：登録中のリマインダーをリストで呼び出します。'] # ヘルプコマンドの反応
 
 # botがメンションを受け取った時の返信定義
-list02 = ['わーちょっとまってー！今いそがし……あーっ！！', 'はーい♪ 何かご用事ですか？', 'さん、おはようございます♪\n今日もよろしくお願いします', '早く新しいお仕事を覚えなきゃ……！']
 async def reply(message):
     reply = f'{message.author.mention} ' + random.choice(list02) 
     await message.channel.send(reply)
 
 # ヘルプコマンド
-list03 = ['滝上 絢椛に対するテキストコマンドのヘルプ。\n・/neko：４つのパターンでねこの鳴き真似を返します。\n・/exit（管理者のみ）：滝上 絢椛を終了します。\n・/cleanup（管理者のみ）入力したテキストチャンネルのログを全削除します。\n・/remind（未実装）：リマインダー登録します。登録方法は"/remind タイトル,yyyy/MM/dd,hh:mm,コメント"です。\n・/remind_list（未実装）：登録中のリマインダーをリストで呼び出します。']
 async def help(message):
     help = list03[0]
     await message.channel.send(help)
@@ -74,14 +92,8 @@ async def on_message(message):
     # リマインダーリスト表示
     if message.content == '/remind_list':
         await message.channel.send('今お預かりしているリマインダー項目は次の通りです（未実装）')
-#    # チャンネルリンク生成テスト
-#    if message.content == '/link':
-#        await message.channel.send('こちらですか？\n・<#800882842519207936>')
 
 ##ウェルカムメッセージの処理
-# メッセージを送りたいチャンネルのid
-channel_01 = 799059509443166208
-
 @client.event
 async def on_member_join(member):
     channel = client.get_channel(channel_01)
